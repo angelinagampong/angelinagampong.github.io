@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Beautique</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">BEAUTIQUE</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <li><button class="cart-icon-btn" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Store Contacts</h2>
+       
+        <!-- UPDATED AND SECURED BOX CONTAINER -->
+        <div class="contact-container-box">
+            <div class="contact-item-row">
+                <span style="font-size: 1.5rem; margin-right: 0.5rem;">📞</span>
+                <strong>Phone Support:</strong> +63 998 567 8901
+            </div>
+            <hr style="border: 0; border-top: 1px solid #E3D6BF; margin: 1rem 0;">
+            <div class="contact-item-row">
+                <span style="font-size: 1.5rem; margin-right: 0.5rem;">✉️</span>
+                <strong>Email Support:</strong> beautique.cosmetics@gmail.com
+            </div>
+        </div>
+    </main>
+
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Your Shopping Bag</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <ul class="cart-items-list" id="cartItems"></ul>
+        <div class="cart-total-container">Total: ₱<span id="cartTotal">0.00</span></div>
+        <button style="margin-top:1rem; width:100%;">Checkout</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Beautique Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        function toggleCart() { document.getElementById('cartDrawer').classList.toggle('open'); updateCartUI(); }
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cartItems').innerHTML = cart.map(item => `
+                <li class="cart-item"><span>${item.name}</span><strong>₱${item.price.toFixed(2)}</strong></li>
+            `).join('');
+            document.getElementById('cartTotal').innerText = cart.reduce((sum, item) => sum + item.price, 0).toLocaleString('en-US', {minimumFractionDigits:2});
+        }
+        document.getElementById('cart-count').innerText = cart.length;
+    </script>
+</body>
+</html>

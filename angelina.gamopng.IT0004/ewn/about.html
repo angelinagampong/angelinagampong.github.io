@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">BEAUTIQUE</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><button class="cart-icon-btn" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <section style="text-align: center; max-width: 800px; margin: 0 auto 3rem auto; padding: 0 1rem;">
+            <h1>About Us</h1>
+        </section>
+
+        <section style="text-align: center; max-width: 800px; margin: 0 auto 3rem auto; padding: 0 1rem;">
+            <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: #2F2E2B;">
+                Beatique is your go-to destination for premium beauty essentials designed to enhance your natural glow. We offer a carefully curated collection of makeup products that combine quality, style, and affordability, making beauty accessible to everyone. From everyday mus haves to bold statement looks, Beautique helps you express your unique style with confidence, creativty and elegance.
+            </p>
+            <p style="font-size: 1.1rem; color: #2F2E2B;">
+                We painstakingly select every brand we house, ensuring they meet our strict standards for pigmentation, longevity, and skin-loving ingredients. From radiant everyday foundations to bold evening lipsticks, we bring the best of the beauty world right to your vanity.
+            </p>
+        </section>
+
+        <section>
+            <h2>The Beautique Standards</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div>
+                        <span class="brand-badge" style="background-color: #933B5B;">Curated</span>
+                        <h3>Multi-Brand Selection</h3>
+                        <p style="margin-top: 0.5rem;">We bridge the gap between quality houses and viral trendy brands, offering you an elite mix of favorites.</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div>
+                        <span class="brand-badge">Conscious</span>
+                        <h3>Clean Formulations</h3>
+                        <p style="margin-top: 0.5rem;">We proudly highlight brands that prioritize ethically-sourced, cruelty-free, and high-performance ingredients.</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div>
+                        <span class="brand-badge" style="background-color: #9F9679;">Inclusive</span>
+                        <h3>Beauty for Everyone</h3>
+                        <p style="margin-top: 0.5rem;">Every skin tone, type, and style deserves to find its perfect match. Our selection celebrates absolute diversity.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Your Shopping Cart</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <ul class="cart-items-list" id="cartItems"></ul>
+        <div class="cart-total-container">
+            Total: $<span id="cartTotal">0.00</span>
+        </div>
+        <button style="margin-top:1rem;">Checkout</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Beautique Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Local tracking script to allow the cart drawer UI to open/close correctly on this page
+        let cart = JSON.parse(localStorage.getItem('beautique_cart')) || [];
+        
+        function toggleCart() {
+            document.getElementById('cartDrawer').classList.toggle('open');
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const cartItemsContainer = document.getElementById('cartItems');
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <li class="cart-item">
+                    <span>${item.name}</span>
+                    <strong>$${item.price.toFixed(2)}</strong>
+                </li>
+            `).join('');
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('cartTotal').innerText = total.toFixed(2);
+        }
+
+        // Run on load to fetch cart count badge state
+        document.getElementById('cart-count').innerText = cart.length;
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,289 @@
+/* Universal Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #E3D6BF; /* Chalk background */
+    color: #2F2E2B;
+    line-height: 1.6;
+    padding-top: 80px; /* Prevents hero/main content from getting hidden under the sticky header */
+}
+
+/* Header & Navigation - FIXED TO BE STICKY */
+header {
+    background-color: #ffffff;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 10px rgba(159, 150, 121, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #933B5B;
+    position: fixed; /* Fixes to top of page */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999; /* Keeps header layered above page items */
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #933B5B; /* Amaranth Logo */
+    letter-spacing: 2px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #9F9679; /* Pomelo Olive links */
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover { color: #B5728A; }
+nav ul li a.active { color: #933B5B; }
+
+.cart-icon-btn {
+    background: none;
+    color: #933B5B;
+    border: 2px solid #933B5B;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.cart-icon-btn:hover {
+    background-color: #933B5B;
+    color: white;
+}
+
+/* Hero Section */
+.hero {
+    background: #E3D6BF; /* Clean background match as per layout image */
+    padding: 6rem 2rem;
+    text-align: center;
+    color: #2F2E2B;
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    color: #2F2E2B;
+}
+
+.hero p {
+    color: #9F9679;
+    font-size: 1.1rem;
+}
+
+/* Main Content Layout */
+main {
+    padding: 3rem 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: #933B5B;
+    font-weight: 600;
+}
+
+.brand-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.brand-row-card {
+    background-color: #ffffff;
+    border: 1px solid rgba(159, 150, 121, 0.3);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    display: block;
+}
+
+.brand-row-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(147, 59, 91, 0.1);
+    border-color: #933B5B;
+}
+
+.brand-row-card h3 {
+    color: #2F2E2B;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.brand-row-card p {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* Dynamic Product Grid Styling for Catalog page */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.product-card {
+    background: #ffffff;
+    border: 1px solid #9F9679;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.brand-badge {
+    display: inline-block;
+    background-color: #AABAAE;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.8rem;
+    margin: 0.8rem auto;
+    border-radius: 20px;
+    width: max-content;
+}
+
+.add-to-cart-btn {
+    background-color: #933B5B;
+    color: white;
+    border: none;
+    padding: 0.6rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+/* FIXED BOX CONTACT DESIGN */
+.contact-container-box {
+    background-color: #ffffff;
+    border: 1px solid rgba(159, 150, 121, 0.4);
+    border-radius: 8px;
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.contact-item-row {
+    margin: 1.2rem 0;
+    font-size: 1.1rem;
+    color: #2F2E2B;
+}
+
+/* sidebar drawer shopping card */
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 320px;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: right 0.3s ease;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    border-left: 4px solid #933B5B;
+}
+.cart-drawer.open {
+    right: 0;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    color: #933B5B;
+}
+
+.close-cart {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #9F9679;
+}
+
+.cart-items-list {
+    list-style: none;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #E3D6BF;
+}
+
+.cart-total-container {
+    border-top: 2px solid #9F9679;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+footer{
+    background-color: #2F2E2B;
+    color: #E3D6BF;
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 3rem;
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body { padding-top: 140px; } /* Gives space for multi-line sticky mobile header navigation */
+    header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+}
+

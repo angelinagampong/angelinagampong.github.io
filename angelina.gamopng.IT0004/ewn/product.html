@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | Beautique</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">BEAUTIQUE</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><button class="cart-icon-btn" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2 id="catalog-title">Our Makeup Collection</h2>
+        <div style="text-align:center; margin-bottom: 2rem;">
+            <button id="reset-filter-btn" style="display:none; width:auto; padding: 0.5rem 1rem; background-color:#9F9679;" onclick="window.location.href='products.html'">View All Categories</button>
+        </div>
+        
+        <div id="catalog-content">
+            <!-- Dynamic sections generate dynamically depending on the URL state -->
+        </div>
+    </main>
+
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Your Shopping Bag</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <ul class="cart-items-list" id="cartItems"></ul>
+        <div class="cart-total-container">Total: ₱<span id="cartTotal">0.00</span></div>
+        <button style="margin-top:1rem; width:100%;">Checkout</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Beautique Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const productsList = [
+            //ABSIDY
+            { id: 1, name: "Weightless Touch Foundation", brand: "Absidy", price: 695.00, category: "Face Essentials", img: "https://down-sg.img.susercontent.com/file/ph-11134207-7rase-m6rq2z58gzjzc6" },
+            { id: 2, name: "Shape and Define", brand: "Absidy", price: 295.00, category: "Eye & Brow Artistry", img: "https://down-ph.img.susercontent.com/file/ph-11134208-7r991-lwwbtoy8eogx74" },
+            { id: 3, name: "Cashmere Kiss", brand: "Absidy", price: 395.00, category: "Lip Favorites", img: "https://thf.bing.com/th/id/R.7d9fc5661b5cd856e9a9543bf45b088f?rik=8uBMm9WMwT2IZw&riu=http%3a%2f%2fluxeorganix.com.au%2fcdn%2fshop%2ffiles%2fph-11134207-7r98v-lnsjl6onrgix2a.jpg%3fv%3d1700572457%26width%3d2048&ehk=zjEACqvdU77PW%2b0ruL2PCgm51vrHqcJwJfE4NzNXuvE%3d&risl=&pid=ImgRaw&r=0" },
+
+            //CHUCHUBEAUTY
+            { id: 4, name: "Heart Blush Duo", brand: "ChuChu Beauty", price: 399.00, category: "Cheeks Couture", img: "https://down-ph.img.susercontent.com/file/sg-11134202-824il-mejk3l2g7uv7dd" },
+            { id: 5, name: "Heart Paint", brand: "ChuChu Beauty", price: 399.00, category: "Lip Favorites", img: "https://img.lazcdn.com/g/p/4652a0a29ad2c57c5641b6baca01ad04.png_720x720q80.png" },
+            { id: 6, name: "Matte Bomb", brand: "ChuChu Beauty", price: 399.00, category: "Lip Favorites", img: "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/9b04d38b4310485cad6d08e71d10fdd7~tplv-o3syd03w52-resize-jpeg:800:800.jpeg?dr=15584&t=555f072d&ps=933b5bde&shp=6ce186a1&shcp=e1be8f53&idc=maliva&from=1826719393" },
+            { id: 7, name: "Butter Bounce Blush", brand: "ChuChu Beauty", price: 399.00, category: "Cheeks Couture", img: "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/9b04d38b4310485cad6d08e71d10fdd7~tplv-o3syd03w52-resize-jpeg:800:800.jpeg?dr=15584&t=555f072d&ps=933b5bde&shp=6ce186a1&shcp=e1be8f53&idc=maliva&from=1826719393" },
+            { id: 8, name: "Soft Focus Liquid Concealer", brand: "ChuChu Beauty", price: 399.00, category: "Face Essentials", img: "https://down-ph.img.susercontent.com/file/ph-11134207-7ra0l-mc69w9nca2mocc" },
+            { id: 9, name: "Soft Focus Loose Powder", brand: "ChuChu Beauty", price: 399.00, category: "Face Essentials", img: "https://down-ph.img.susercontent.com/file/ph-11134207-7ra0i-mbjogftyfn5r75" },
+            { id: 10, name: "Tinded Lip Syrup", brand: "ChuChu Beauty", price: 399.00, category: "Lip Favorites", img: "https://down-ph.img.susercontent.com/file/sg-11134202-824hx-mei4n5zfwf7k6c" },
+            { id: 11, name: "Silk Glow Baked Blush", brand: "ChuChu Beauty", price: 399.00, category: "Cheeks Couture", img: "https://down-ph.img.susercontent.com/file/ph-11134207-7rasc-m3n9ymdk1pnb16" },
+
+            //LUCKY BEAUTY
+            { id: 12, name: "Anti-aging Moisturizer Cream", brand: "Lucky Beauty", price: 1800.00, category: "Skincare & Hybrids", img: "https://luckybeauty.com/cdn/shop/products/anti-aging-moisturizer-collagen-night-cream-lucky-beauty_360x@2x.webp?v=1695341021" },
+            { id: 13, name: "Charcoal Anti-aging Skin Care Cream", brand: "Lucky Beauty", price: 2800.00, category: "Skincare & Hybrids", img: "https://luckybeauty.com/cdn/shop/files/anti-aging-serum-men-000000_20586073-3cc7-4d00-9611-a622425bd49b_360x@2x.jpg?v=1694718736" },
+            { id: 14, name: "Clay Mask - Dry Skin", brand: "Lucky Beauty", price: 1300.00, category: "Skincare & Hybrids", img: "https://luckybeauty.com/cdn/shop/products/natural-vegan-exfoliating-cream-hydrating-cream-lucky-beauty_360x@2x.webp?v=1695334564" },
+            { id: 15, name: "Clay Mask - Sensitive Skin", brand: "Lucky Beauty", price: 1000.00, category: "Skincare & Hybrids", img: "https://luckybeauty.com/cdn/shop/products/ultra-hydrating-moisturizing-clay-mask-lucky-beauty_2fa92b8f-7da6-4871-b721-87565df5ab65_360x@2x.webp?v=1695342150" },
+            { id: 16, name: "Clay Mask - Oily Skin", brand: "Lucky Beauty", price: 1200.00, category: "Skincare & Hybrids", img: "https://luckybeauty.com/cdn/shop/products/clay-mask-for-oily-skin-acne-prone-mask-lucky-beauty_360x@2x.webp?v=1695337329" },
+            { id: 17, name: "Rose Gold Anti-aging Serum", brand: "Lucky Beauty", price: 2900.00, category: "Skincare & Hybrids", img: "https://luckybeauty.com/cdn/shop/files/anti-aging-serum-F7C052_093c8c4d-9a49-4e69-927a-f86dc9cc3400_360x@2x.jpg?v=1694718675" },
+
+            //BLK COSMETICS
+            { id: 18, name: "Creamy All Over Paint", brand: "blk cosmetics", price: 399.00, category: "Lip Favorites", img: "https://blkcosmetics.com.ph/cdn/shop/files/WEB_CAOP_New_CHERRY_HEAT_900x.png?v=1776879931" },
+            { id: 19, name: "Color Adapting Lip and Cheek Oil", brand: "blk cosmetics", price: 349.00, category: "Lip Favorites", img: "https://blkcosmetics.com.ph/cdn/shop/files/og_900x.png?v=1771389255" },
+            { id: 20, name: "Gloss Gell Tint", brand: "blk cosmetics", price: 399.00, category: "Lip Favorites", img: "https://blkcosmetics.com.ph/cdn/shop/files/golden_hour_5210ef97-1d16-48bf-bb1b-ac9b8d3dd666_900x.png?v=1751268814" },
+            { id: 21, name: "Soft Blur Liquid Foundation", brand: "blk cosmetics", price: 399.00, category: "Face Essentials", img: "https://blkcosmetics.com.ph/cdn/shop/files/Oat_d6a70841-9af6-4d45-a8e6-7ef4478c732b_900x.png?v=1752908203" },
+            { id: 22, name: "Airy Matte Cushion Foundation", brand: "blk cosmetics", price: 749.00, category: "Face Essentials", img: "https://blkcosmetics.com.ph/cdn/shop/files/creme-1_baee05f8-a430-4448-a97d-abee0513f5e6_900x.png?v=1762421567" },
+            { id: 23, name: "Universal Skin Tint Sun Sheild Spf 30", brand: "blk cosmetics", price: 649.00, category: "Face Essentials", img: "https://blkcosmetics.com.ph/cdn/shop/files/oat_900x.png?v=1723794167" },
+            { id: 24, name: "Waterproof Liquid Liner", brand: "blk cosmetics", price: 349.00, category: "Eye & Brow Artistry", img: "https://blkcosmetics.com.ph/cdn/shop/files/web-1_207b3569-29ed-4839-bf1b-4873ae54dcb1_900x.png?v=1766459767" },
+            { id: 25, name: "Soft Blur Powder Blush", brand: "blk cosmetics", price: 399.00, category: "Cheeks Couture", img: "https://blkcosmetics.com.ph/cdn/shop/files/bonbon_5c54a752-803d-49c9-bac8-7772946f7b7d_900x.png?v=1753603799" },
+            { id: 26, name: "Universal Sheer Sunscreen Primer Stick", brand: "blk cosmetics", price: 599.00, category: "Skincare & Hybrids", img: "https://blkcosmetics.com.ph/cdn/shop/files/web1_900x.png?v=1734325883" },
+
+            //SUNNIES FACE
+            { id: 27, name: "Fluffmatte Modern Lipstick", brand: "Sunnies Face", price: 495.00, category: "Lip Favorites", img: "https://down-ph.img.susercontent.com/file/ph-11134207-7rasf-m2ufmgo82zt71d" },
+            { id: 28, name: "Lifebrow Grooming Gel", brand: "Sunnies Face", price: 395.00, category: "Eye & Brow Artistry", img: "https://down-ph.img.susercontent.com/file/ph-11134201-7rash-m33lunr0f62jf4" },
+            { id: 29, name: "Healthy Touch Eyeshadow Palette", brand: "Sunnies Face", price: 795.00, category: "Eye & Brow Artistry", img: "https://tse4.mm.bing.net/th/id/OIP.jBfvYv5AGLqO7BLCxUBgBwHaHa?r=0&cb=thfc1falcon4&rs=1&pid=ImgDetMain&o=7&rm=3" },
+            { id: 30, name: "Lip Elixir", brand: "Sunnies Face", price: 199.00, category: "Lip Favorites", img: "https://down-ph.img.susercontent.com/file/ph-11134207-81zth-mhyytzkoc7b803" },
+            { id: 31, name: "Lip Treat", brand: "Sunnies Face", price: 445.00, category: "Lip Favorites", img: "https://lobeautyuae.com/cdn/shop/files/955D9D42-11A1-4D58-977F-A0DED053572E_1024x1024.jpg?v=1732943402" },
+            { id: 30, name: "Skin So Good Fix & Refresh Setting Spray", brand: "Sunnies Face", price: 695.00, category: "Skincare & Hybrids", img: "https://down-th.img.susercontent.com/file/th-11134207-81ztq-mes7uxsenhtzf5" },
+
+            //POPIQUE
+            { id: 31, name: "Face Forward Multi-Complexion Pot", brand: "Popique", price: 399.00, category: "Face Essentials", img: "https://popiquebeauty.com/cdn/shop/files/Face_Forward_Multi-Complexion_Pot_Brighten_Correct-01.jpg?v=1745282872&width=1440" },
+            { id: 32, name: "On Point Brow Pencil with Clear Gel", brand: "Popique", price: 399.00, category: "Eye & Brow Artistry", img: "https://popiquebeauty.com/cdn/shop/files/7d6239332da138efe257f06cdbca340c.jpg?v=1769386802&width=1440" },
+            { id: 33, name: "Kiss Me Multi-Peptide Lip Balm", brand: "Popique", price: 399.00, category: "Lip Favorites", img: "https://popiquebeauty.com/cdn/shop/files/3e7c204caaf15a3bc0756be19bfa180d.jpg?v=1768385246&width=1440" },
+            { id: 34, name: "Take A Sip Multi-Peptide Toning Essence", brand: "Popique", price: 499.00, category: "Skincare & Hybrids", img: "https://popiquebeauty.com/cdn/shop/files/TAKE_A_SIP_MULTI-PEPTIDE_TONING_ESSENCE-01.jpg?v=1745288274&width=1440" },
+            { id: 35, name: "TAll-Over Multiuse Cream Palette", brand: "Popique", price: 499.00, category: "Face Essentials", img: "https://popiquebeauty.com/cdn/shop/files/All-Over_Multiuse_Cream_Palette-01.jpg?v=1745281499&width=1440" },
+
+            //COLOURETTE
+            { id: 36, name: "Colourtint Multi-Use Liquid Tint", brand: "Colourette", price: 399.00, category: "Lip Favorites", img: "https://colourette.ph/cdn/shop/files/Colourtint_Ava_900x.webp?v=1712098990" },
+            { id: 37, name: "Shimmertint", brand: "Colourette", price: 399.00, category: "Eye & Brow Artistry", img: "https://colourette.ph/cdn/shop/files/4806536980917_1_39869214-9fc5-46be-a336-cf812979aff7_900x.png?v=1711429407" },
+            { id: 38, name: "Colourbounce Jelly-to-Powder", brand: "Colourette", price: 499.00, category: "Lip Favorites", img: "https://colourette.ph/cdn/shop/files/Colourbounce_Bean_900x.jpg?v=1711429195" },
+            { id: 39, name: "Colourtint Balm", brand: "Colourette", price: 399.00, category: "Lip Favorites", img: "https://colourette.ph/cdn/shop/files/Colourbalm_Bikini_900x.jpg?v=1708927061" },
+            { id: 40, name: "Brow Bestie", brand: "Colourette", price: 349.00, category: "Eye & Brow Artistry", img: "https://colourette.ph/cdn/shop/files/1Mainphoto_6788a70d-42c0-4762-8757-d6d3bdd419f3_900x.png?v=1712098724" },
+
+            //STROKES
+            { id: 41, name: "Brow Sculptor Duo", brand: "Strokes", price: 448.00, category: "Eye & Brow Artistry", img: "https://www.strokes.ph/cdn/shop/files/1_Brow_Sculptor_Duo_-_Soft_Brown_-_Cover.jpg?v=1778814188" },
+            { id: 42, name: "Silk Kiss", brand: "Strokes", price: 398.00, category: "Eye & Brow Artistry", img: "https://www.strokes.ph/cdn/shop/files/1NaturalRose-Cover.jpg?v=1778910640" },
+            { id: 43, name: "Soft Veil Filter Foundation", brand: "Strokes", price: 648.00, category: "Eye & Brow Artistry", img: "https://www.strokes.ph/cdn/shop/files/1FairCool-Cover_8311d752-c35b-4e90-a844-6587f1f4807a.jpg?v=1778917273" },
+            { id: 44, name: "Skin Veil Cooling Mist", brand: "Strokes", price: 498.00, category: "Skincare & Hybrids", img: "https://www.strokes.ph/cdn/shop/files/1Mist-Cover.jpg?v=1778911584" },
+
+            //HAPPY SKIN
+            { id: 45, name: "Lip Mallow Plush Skin-Care Tint", brand: "Happy Skin", price: 599.00, category: "Skincare & Hybrids", img: "https://happyskincosmetics.com/cdn/shop/files/TINT-fluff_1_78a4fa0f-d987-465e-b6f4-5b985b11ad93_900x.jpg?v=1780456030" },
+            { id: 46, name: "Happy Skin Cloud Flush", brand: "Happy Skin", price: 599.00, category: "Cheeks Couture", img: "https://happyskincosmetics.com/cdn/shop/files/CLOUD_FLUSH_-_RUNWAY_1_72e28eb3-d734-4052-9f58-509aa4929659_900x.jpg?v=1763123187" },
+            { id: 47, name: "Happy Skin Ceramide + B12 Boost Nourishing Cleansing Foam", brand: "Happy Skin", price: 549.00, category: "Skincare & Hybrids", img: "https://happyskincosmetics.com/cdn/shop/files/CERACLEANSINGFOAM-1_900x.jpg?v=1761559340" },
+            { id: 48, name: "Happy Skin Ceramide + Hyaluronic Acid Makeup Cleansing Wipest", brand: "Happy Skin", price: 315.00, category: "Skincare & Hybrids", img: "https://happyskincosmetics.com/cdn/shop/files/CERAMIDEWIPES1_900x.jpg?v=1752217757" }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function getParam(name) {
+            return new URLSearchParams(window.location.search).get(name);
+        }
+
+        function buildProductCard(p) {
+            return `
+                <div class="product-card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <span class="brand-badge">${p.brand}</span>
+                    <h3>${p.name}</h3>
+                    <p>₱${p.price.toFixed(2)}</p>
+                    <button class="add-to-cart-btn" onclick="addToCart('${p.name.replace(/'/g, "\\'")}', ${p.price})">Add to Cart</button>
+                </div>
+            `;
+        }
+
+        function displayProducts() {
+            const chosenBrand = getParam('brand');
+            const contentContainer = document.getElementById('catalog-content');
+            const title = document.getElementById('catalog-title');
+            
+            if (chosenBrand) {
+                // Filter view state: Show only one specific brand
+                const filtered = productsList.filter(p => p.brand.toLowerCase() === chosenBrand.toLowerCase());
+                title.innerText = `${chosenBrand} Collection`;
+                document.getElementById('reset-filter-btn').style.display = 'inline-block';
+                
+                contentContainer.innerHTML = `
+                    <div class="product-grid">${filtered.map(p => buildProductCard(p)).join('')}</div>
+                `;
+            } else {
+                // General view state: Group beautifully by categories
+                title.innerText = "Our Makeup Collection";
+                document.getElementById('reset-filter-btn').style.display = 'none';
+                
+                const categories = ["Face Essentials", "Cheeks Couture", "Lip Favorites", "Eye & Brow Artistry", "Skincare & Hybrids"];
+                
+                contentContainer.innerHTML = categories.map(cat => {
+                    const catProducts = productsList.filter(p => p.category === cat);
+                    return `
+                        <h3 style="color:#933B5B; border-bottom:2px solid #9F9679; margin: 2.5rem 0 1rem 0; padding-bottom:0.5rem;">${cat === 'Face Essentials' ? '✨' : cat === 'Cheeks Couture' ? '🌸' : cat === 'Lip Favorites' ? '💄' : cat === 'Eye & Brow Artistry' ? '👁️' : '🌿'} ${cat}</h3>
+                        <div class="product-grid">
+                            ${catProducts.map(p => buildProductCard(p)).join('')}
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function toggleCart() { document.getElementById('cartDrawer').classList.toggle('open'); updateCartUI(); }
+        
+        function addToCart(name, price) {
+            cart.push({name, price});
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cartItems').innerHTML = cart.map(item => `
+                <li class="cart-item"><span>${item.name}</span><strong>₱${item.price.toFixed(2)}</strong></li>
+            `).join('');
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('cartTotal').innerText = total.toLocaleString('en-US', {minimumFractionDigits:2});
+        }
+
+        // Run functions to initialize
+        displayProducts();
+        document.getElementById('cart-count').innerText = cart.length;
+    </script>
+</body>
+</html>

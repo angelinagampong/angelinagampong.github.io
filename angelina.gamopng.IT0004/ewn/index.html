@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautique | Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">BEAUTIQUE</div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><button class="cart-icon-btn" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Welcome to Beautique! Your Ultimate Beauty Destination</h1>
+        <p>Explore curated make up essentials from the top quality brands.</p>
+    </section>
+
+    <main>
+        <h2>Featured Brands</h2>
+        
+        <div class="brand-list-container">
+            <a href="products.html?brand=blk cosmetics" class="brand-row-card">
+                <h3>blk cosmetics</h3>
+                <p>One of the top leading local brands, known for their high-quality and affordable beauty products.</p>
+            </a>
+
+            <a href="products.html?brand=Happy Skin" class="brand-row-card">
+                <h3>Happy Skin</h3>
+                <p>Skin-loving makeup that offers high-performance pigments infused with skin-nourishing ingredients.</p>
+            </a>
+
+            <a href="products.html?brand=Popique" class="brand-row-card">
+                <h3>Popique</h3>
+                <p>A fresh, colorful perspective on modern beauty with iconic lip and cheek glazes.</p>
+            </a>
+
+            <a href="products.html?brand=Sunnies Face" class="brand-row-card">
+                <h3>Sunnies Face</h3>
+                <p>Cult-favorite formulations and inclusive color ranges designed to elevate your beauty routine.</p>
+            </a>
+
+            <a href="products.html?brand=ChuChu Beauty" class="brand-row-card">
+                <h3>ChuChu Beauty</h3>
+                <p>Playful, cutely packaged essentials curated perfectly for everyday sweet expressions.</p>
+            </a>
+
+            <a href="products.html?brand=Absidy" class="brand-row-card">
+                <h3>Absidy</h3>
+                <p>Clean, weightless, and high-performance base makeup that feels just like second skin.</p>
+            </a>
+
+            <a href="products.html?brand=Lucky Beauty" class="brand-row-card">
+                <h3>Lucky Beauty</h3>
+                <p>Dewy finishes and lucky charms designed to make your natural radiance truly stand out.</p>
+            </a>
+
+            <a href="products.html?brand=Strokes" class="brand-row-card">
+                <h3>Strokes Beauty Lab</h3>
+                <p>Professional brow-sculpting and complexion artistry formulated by structure experts.</p>
+            </a>
+
+            <a href="products.html?brand=Colourette" class="brand-row-card">
+                <h3>Colourette</h3>
+                <p>The home of legendary multi-use tints made beautifully for every single skin tone.</p>
+            </a>
+        </div>
+    </main>
+
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Your Shopping Bag</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <ul class="cart-items-list" id="cartItems"></ul>
+        <div class="cart-total-container">Total: ₱<span id="cartTotal">0.00</span></div>
+        <button style="margin-top:1rem; width:100%;">Checkout</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Beautique Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        function toggleCart() { document.getElementById('cartDrawer').classList.toggle('open'); updateCartUI(); }
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cartItems').innerHTML = cart.map(item => `
+                <li class="cart-item"><span>${item.name}</span><strong>₱${item.price.toFixed(2)}</strong></li>
+            `).join('');
+            document.getElementById('cartTotal').innerText = cart.reduce((sum, item) => sum + item.price, 0).toLocaleString('en-US', {minimumFractionDigits:2});
+        }
+        document.getElementById('cart-count').innerText = cart.length;
+    </script>
+</body>
+</html>
+
+
